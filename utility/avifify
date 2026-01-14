@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+[[ -z $1 ]] && (echo "no filename silly" ; exit 1) || filename=$1
+[[ -z $2 ]] && quality="50" || quality=$2
+[[ -z $3 ]] && alphaquality="0" || alphaquality=$3
+
+echo "FN: $1"
+echo "Q: $quality"
+echo "AQ: $alphaquality"
+
+ffmpeg -y -i "$filename" -strict -1 -pix_fmt yuva444p -f yuv4mpegpipe - | avifenc -q $quality --qalpha $alphaquality --stdin "$filename.avif"
