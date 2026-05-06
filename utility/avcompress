@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+[[ -z $1 ]] && (echo "no filename silly" ; exit 1) || filename=$1
+[[ -z $2 ]] && quality="44" || quality=$2
+allprocessors=$(cat /proc/cpuinfo | grep -c processor)
+processors=$(( $allprocessors < 8 ? $allprocessors : 8 ))
+
+echo "FN: $1"
+echo "Q: $quality"
+echo "CPUs: $processors"
+
+ffmpeg -y -i "$filename" -cpu-used $processors -c:v libaom-av1 -crf $quality "$filename.mp4"
