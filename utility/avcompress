@@ -10,4 +10,4 @@ echo "FN: $1"
 echo "Q: $quality"
 echo "CPUs: $processors"
 
-ffmpeg -y -i "$filename" -cpu-used $processors -c:v libaom-av1 -crf $quality "$filename.mp4"
+ffmpeg -y -i "$filename" -cpu-used $processors -c:v libaom-av1 -crf $quality -c:a libopus -b:a 40k "$filename.mp4"
